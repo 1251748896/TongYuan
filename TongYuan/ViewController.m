@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "bases/RootViewController.h"
 @interface ViewController ()
 
 @end
@@ -17,7 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[[UIApplication sharedApplication] delegate] window].rootViewController = [[RootViewController alloc] init];
 }
+
 
 
 - (void)didReceiveMemoryWarning {
