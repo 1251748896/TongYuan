@@ -1,0 +1,15 @@
+//
+//  MediumListViewController.h
+//  TongYuan
+//
+//  Created by 姜波 on 2017/12/18.
+//  Copyright © 2017年 姜波. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface MediumListViewController : BaseViewController
+
+@property (nonatomic, assign) BOOL isImage;
+@property (nonatomic, copy) NSString *ProjectID;
+@end

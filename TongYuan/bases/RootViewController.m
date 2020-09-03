@@ -11,6 +11,7 @@
 #import "GovernmentViewController.h"
 #import "MainViewController.h"
 #import "ProjectViewController.h"
+
 @interface RootViewController ()
 
 @end
@@ -24,17 +25,34 @@
     [self showMain];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if ([Tool tool].needReSetRootVc) {
+        //需要重置
+        [self showMain];
+        [Tool tool].needReSetRootVc = NO;
+    }
+}
+
 - (void)showMain {
     UINavigationController *mainNav = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
-    UINavigationController *goverNav = [[UINavigationController alloc] initWithRootViewController:[[GovernmentViewController alloc] init]];
     UINavigationController *proNav = [[UINavigationController alloc] initWithRootViewController:[[ProjectViewController alloc] init]];
+    UINavigationController *goverNav = [[UINavigationController alloc] initWithRootViewController:[[GovernmentViewController alloc] init]];
     UINavigationController *userNav = [[UINavigationController alloc] initWithRootViewController:[[UserCenterViewController alloc] init]];
-    self.viewControllers = @[mainNav, goverNav, proNav, userNav];
+    
+    self.viewControllers = @[mainNav, proNav, goverNav, userNav];
     //底部tabBar的颜色
     self.tabBar.tintColor = [UIColor clearColor];
-    NSArray * array = @[@"mainNormal.png",@"manageMoneyNormal.png",@"personalNormal.png",@"moreNormal.png"];
-    NSArray * selectedArray = @[@"mainHigh.png",@"manageMoneyHigh.png",@"personalHigh.png",@"moreHigh.png"];
-    NSArray * titleArr = @[@"首页",@"企业",@"项目",@"我的"];
+    NSArray * array = @[@"tab-bar_home_default.png",
+                        @"tab-bar_projects_default.png",
+                        @"tab-bar_enterprise_default.png",
+                        @"tab-bar_mine_default.png"];
+    NSArray * selectedArray = @[@"tab-bar_home_elect.png",
+                                @"tab-bar_projects_elect.png",
+                                @"tab-bar_enterprise_elect.png",
+                                @"tab-bar_mine_elect.png"];
+    NSArray * titleArr = @[@"首页",@"项目",@"企业",@"我的"];
     NSArray *arrays = self.viewControllers;
     for (int i = 0; i < arrays.count; i ++) {
         UINavigationController * nav = arrays[i];
@@ -49,7 +67,6 @@
         [item setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithWhite:0.0 alpha:1.0]} forState:UIControlStateNormal];
         nav.tabBarItem = item;
     }
-    
 }
 
 - (BOOL)shouldAutorotate {

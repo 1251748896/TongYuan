@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ChangePswController.h"
 @interface UserCenterViewController : BaseViewController
 
 @end

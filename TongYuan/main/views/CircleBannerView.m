@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic) NSMutableArray *titMuArr;
+
 
 @end
 
@@ -34,6 +36,13 @@
         _dataArray = [NSMutableArray arrayWithCapacity:5];
     }
     return _dataArray;
+}
+
+- (NSMutableArray *)titMuArr {
+    if (!_titMuArr) {
+        _titMuArr = [NSMutableArray arrayWithCapacity:5];
+    }
+    return _titMuArr;
 }
 
 - (UIPageControl *)pageControl {
@@ -83,7 +92,6 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 
-
 - (void)pageChange:(UIPageControl *)pageControl {
     
 }
@@ -96,14 +104,14 @@
 }
 
 - (void)drawRect:(CGRect)rect {
+    
     // Drawing code
-   
+    
     for (UIView *vi in self.subviews) {
         if ([vi isKindOfClass:[UIImageView class]]) {
             [vi removeFromSuperview];
         }
     }
-    
     
     if (_timerInterval <= 0) {
         _timerInterval = 3.0;
@@ -111,6 +119,9 @@
     
     if (self.dataArray.count > 0) {
         [self.dataArray removeAllObjects];
+    }
+    if (self.titMuArr.count > 0) {
+        [self.titMuArr removeAllObjects];
     }
     
     if (self.imageArray.count == 0) {
@@ -123,21 +134,52 @@
         [self.dataArray addObject:[self.imageArray firstObject]];
     }
     
+    if (self.titMuArr.count == 0) {
+        
+        if (_titleArr.count > 0) {
+            [self.titMuArr addObjectsFromArray:self.titleArr];
+            [self.titMuArr insertObject:[self.titleArr lastObject] atIndex:0];
+            [self.titMuArr addObject:[self.titleArr firstObject]];
+        }
+    }
+    
     self.contentSize = CGSizeMake(rect.size.width * self.dataArray.count, 100);
     
     for (int i=0; i<self.dataArray.count; i++) {
+        
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.backgroundColor = [UIColor lightGrayColor];
         imageView.frame = CGRectMake(0 + i*(rect.size.width), 0, rect.size.width, rect.size.height);
+        imageView.tag = 100 + i;
+        imageView.userInteractionEnabled = YES;
+        [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageGestureee:)]];
         [self addSubview:imageView];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[i]]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:self.dataArray[i]] placeholderImage:[Tool getBigPlaceholderImage]];
+        
+        if (_titMuArr.count > i) {
+            UILabel *btmLabel = [[UILabel alloc] init];
+            btmLabel.frame = CGRectMake(0, CGRectGetMaxY(imageView.frame)-20, CGRectGetWidth(imageView.bounds), 20);
+            btmLabel.textColor = [UIColor whiteColor];
+            btmLabel.textAlignment = NSTextAlignmentCenter;
+            btmLabel.font = [UIFont systemFontOfSize:13];
+            btmLabel.text = _titMuArr[i];
+            [imageView addSubview:btmLabel];
+        }
     }
     
     self.pageControl.numberOfPages = self.imageArray.count;
-    self.pageControl.frame = CGRectMake(rect.size.width, (rect.size.height - 30), rect.size.width, 30);
+    self.pageControl.frame = CGRectMake(rect.size.width, (rect.size.height - 40), rect.size.width, 20);
     [self setContentOffset:CGPointMake(rect.size.width, 0)];
     [self bringSubviewToFront:self.pageControl];
     [self startTimer];
+}
+
+- (void)imageGestureee:(UITapGestureRecognizer *)tap {
+    if ([self.banneDdelegate respondsToSelector:@selector(mainBannerClickIndex:indx:)]) {
+        NSInteger indx = tap.view.tag-100-1;
+        
+        [self.banneDdelegate mainBannerClickIndex:tap.view.tag-100 indx:indx];
+    }
 }
 
 - (void)timerEvent {
@@ -146,6 +188,7 @@
     //判断当前的偏移量是否出现 异常偏移
     CGFloat offsetX = self.contentOffset.x / CGRectGetWidth(self.bounds);
     NSInteger xx = (NSInteger)offsetX;
+    
     if (offsetX != xx) {
         //把少偏移的0.x倍宽度 补上去
         CGFloat tempWidth = (offsetX - xx) * offsetWidth;
@@ -154,6 +197,7 @@
         [self setContentOffset:CGPointMake(self.contentOffset.x + tempWidth, 0) animated:YES];
         return;
     }
+    
     [self setContentOffset:CGPointMake(self.contentOffset.x + offsetWidth, 0) animated:YES];
 }
 
@@ -202,6 +246,7 @@
     //暂停定时器
     self.timer.fireDate = [NSDate distantFuture];
 }
+
 - (void)stopTimer {
     if (_timer) {
         [_timer invalidate];

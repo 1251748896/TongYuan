@@ -20,13 +20,13 @@
 
 - (void)setUI  {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    CGFloat cellHeight = 510.0/2.0 ;
+    CGFloat cellHeight = 250.0 ;
     
-    CGFloat fontt = 11.0;
+    CGFloat fontt = 12;
     CGFloat imgvCrnterY = (cellHeight-10)/4.0 - 20 ;
     //第一排
     NSArray *firArr = @[@"园区土地",@"项目进度",@"园区生产经营数据"];
-    NSArray *imgs = @[@"yqtd_main_icon",@"yqtd_main_icon",@"yqtd_main_icon"];
+    NSArray *imgs = @[@"home-park-land",@"home-project-schedule",@"home-park-operation"];
     for (int i=0; i<firArr.count; i++) {
         UIImageView *imgv = [[UIImageView alloc] init];
         imgv.image = [UIImage imageNamed:imgs[i]];
@@ -50,20 +50,19 @@
         }
         CGFloat labelW = SCREEN_WIDTH / 5.5;
         CGFloat labelH = 35.0;
+        NSString *str = firArr[i];
         UILabel *label = [[UILabel alloc] init];
-        label.text = firArr[i];
+        label.text = str;
         label.textAlignment = NSTextAlignmentRight;
         label.bounds = CGRectMake(0, 0, labelW, labelH);
-//        if (i == 0) {
-//            label.center = CGPointMake(SCREEN_WIDTH/6.0, cellHeight/2.0 - labelH/2.0);
-//        } else if (i == 1) {
-//            label.center = CGPointMake(SCREEN_WIDTH/2.0, cellHeight/2.0 - labelH/2.0);
-//        } else if (i == 2) {
-//            label.center = CGPointMake(SCREEN_WIDTH - SCREEN_WIDTH/6.0, cellHeight/2.0 - labelH/2.0);
-//        }
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
         label.textColor = UIColorFromRGB(0x404040);
+        
+        if (str.length > 8) {
+            fontt = 11 ;
+        }
+        
         label.font = [UIFont systemFontOfSize:fontt];
         [self.contentView addSubview:label];
         
@@ -75,10 +74,10 @@
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = 100 + i;
+        button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        button.frame = CGRectMake(i*(SCREEN_WIDTH/3.0), 0, SCREEN_WIDTH/3.0, (cellHeight-10)/2.0);
+        button.frame = CGRectMake(i*(SCREEN_WIDTH/3.0), 0, SCREEN_WIDTH/3.0, (cellHeight-30)/2.0);
         [self.contentView addSubview:button];
-        
     }
     
     UIView *lin = [[UIView alloc] init];
@@ -87,8 +86,11 @@
     [self.contentView addSubview:lin];
     
     //第二排
-    NSArray *secArr = @[@"园区企业",@"企业生产经营数据",@"企业产业分类税值分析",@"企业产品"];
-    NSArray *imgsSec = @[@"qyscjysj_mian_icon",@"qyscjysj_mian_icon",@"qyscjysj_mian_icon",@"qyscjysj_mian_icon"];
+    NSArray *secArr = @[@"园区企业",@"企业生产经营数据",@"园区主导产业税值分析",@"企业产品"];
+    NSArray *imgsSec = @[@"home-park-enterprises",
+                         @"home-enterprise-management",
+                         @"home-value-analysis",
+                         @"home-enterprise-products"];
     for (int i=0; i<secArr.count; i++) {
         CGFloat buttonW = SCREEN_WIDTH / 4.0;
         CGFloat imgvCenterX =  SCREEN_WIDTH/8.0 + i*buttonW;
@@ -101,15 +103,20 @@
             make.bottom.equalTo(self.contentView.mas_centerY).offset(imgvCrnterY);
         }];
         
+        NSString *str = secArr[i];
         CGFloat labelW = SCREEN_WIDTH / 5.5;
 //        CGFloat labelH = 35.0;
         UILabel *label = [[UILabel alloc] init];
-        label.text = secArr[i];
+        label.text = str;
         label.textAlignment = NSTextAlignmentRight;
 //        label.bounds = CGRectMake(0, 0, labelW, labelH);
 //        label.center = CGPointMake(imgvCenterX, (cellHeight-20) - labelH/2.0);
         label.numberOfLines = 0;
         label.textColor = UIColorFromRGB(0x404040);
+        
+        if (str.length > 8) {
+            fontt = 11 ;
+        }
         label.font = [UIFont systemFontOfSize:fontt];
         [self.contentView addSubview:label];
         label.textAlignment = NSTextAlignmentCenter;
@@ -121,8 +128,9 @@
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = 103 + i;
+        button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        button.frame = CGRectMake(i*(SCREEN_WIDTH/3.0), 0, SCREEN_WIDTH/3.0, (cellHeight-10)/2.0);
+        button.frame = CGRectMake(i*(SCREEN_WIDTH/4.0), cellHeight/2.0-10, SCREEN_WIDTH/4.0, (cellHeight-20)/2.0);
         [self.contentView addSubview:button];
     }
     
@@ -147,14 +155,12 @@
     }];
     
     UIImageView *iconn = [[UIImageView alloc] init];
-//    iconn.image = [UIImage imageNamed:@""];
+    iconn.image = [UIImage imageNamed:@"home-dynamic_right"];
     [self.contentView addSubview:iconn];
     [iconn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.contentView.mas_centerX).offset(50);
+        make.centerX.equalTo(self.contentView.mas_centerX).offset(37);
         make.centerY.equalTo(self.contentView.mas_bottom).offset(-(25/2.0));
     }];
-    
-    
 }
 
 - (void)moreInfoBtnClick {
@@ -164,6 +170,7 @@
 }
 
 - (void)buttonClick:(UIButton *)button {
+    
     if ([self.delegate respondsToSelector:@selector(mainClickIndex:)]) {
         NSInteger indx = button.tag - 100;
         [self.delegate mainClickIndex:indx];

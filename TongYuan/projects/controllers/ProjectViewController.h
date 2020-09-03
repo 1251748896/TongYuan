@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ProjectModel.h"
 @interface ProjectViewController : BaseViewController
-
+{
+    NSString *_currentType ;
+    UILabel *_currentTypeLabel ;
+}
 @end

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController">
             <connections>
-                <outlet property="EnglishNameLabel" destination="L15-s5-RkQ" id="eqt-7P-dzD"/>
                 <outlet property="bgImgv" destination="0uZ-yb-gbo" id="2ud-N8-qfP"/>
-                <outlet property="companyLabel" destination="gCL-Uk-zWf" id="NQh-yO-waQ"/>
+                <outlet property="companyNameImgv" destination="Q4q-Cb-79B" id="Qux-a2-KA4"/>
                 <outlet property="loginBtn" destination="ySe-QN-1fc" id="R7s-VT-Xgf"/>
                 <outlet property="logoImgv" destination="CCx-xx-ZzL" id="8Gj-oQ-ZkQ"/>
                 <outlet property="nameIconImgv" destination="plM-i5-aNv" id="fSh-tV-2uV"/>
@@ -29,28 +27,31 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWj-yY-elC">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login-cipher" translatesAutoresizingMaskIntoConstraints="NO" id="SWj-yY-elC">
                     <rect key="frame" x="23" y="384" width="41" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入账户" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fus-M8-y7m">
+                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="账户" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fus-M8-y7m">
                     <rect key="frame" x="89" y="318" width="259" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QY7-EN-a5e">
+                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QY7-EN-a5e">
                     <rect key="frame" x="89" y="387" width="259" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySe-QN-1fc">
                     <rect key="frame" x="23" y="475" width="336" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="登录">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -58,57 +59,50 @@
                         <action selector="loginBtnClick:" destination="-1" eventType="touchUpInside" id="ZxC-9C-IFi"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="plM-i5-aNv">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login-account" translatesAutoresizingMaskIntoConstraints="NO" id="plM-i5-aNv">
                     <rect key="frame" x="23" y="315" width="41" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="成都市龙潭总部经济域" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCL-Uk-zWf">
-                    <rect key="frame" x="36" y="227" width="312" height="46"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_login_icon" translatesAutoresizingMaskIntoConstraints="NO" id="CCx-xx-ZzL">
                     <rect key="frame" x="89" y="115" width="196" height="96"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxx-Zh-miR">
-                    <rect key="frame" x="0.0" y="20" width="375" height="64"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="k31-7d-dGq"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CHENGDU LONGTAN HEADQUARTERS ECONOMIC CITY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L15-s5-RkQ">
-                    <rect key="frame" x="36" y="281" width="312" height="26"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login-bg" translatesAutoresizingMaskIntoConstraints="NO" id="0uZ-yb-gbo">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="companyName" translatesAutoresizingMaskIntoConstraints="NO" id="Q4q-Cb-79B">
+                    <rect key="frame" x="56" y="199" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0uZ-yb-gbo">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Yxx-Zh-miR" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="Khd-6v-K6T"/>
-                <constraint firstItem="0uZ-yb-gbo" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="Vds-fC-tE0"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0uZ-yb-gbo" secondAttribute="bottom" id="dUH-Cm-H6x"/>
-                <constraint firstItem="Yxx-Zh-miR" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="fME-hq-Cip"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Yxx-Zh-miR" secondAttribute="trailing" id="ffI-oh-T98"/>
-                <constraint firstItem="0uZ-yb-gbo" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="nCL-1T-h6H"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="0uZ-yb-gbo" secondAttribute="trailing" id="q3f-sx-0JY"/>
+                <constraint firstItem="Yxx-Zh-miR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Khd-6v-K6T"/>
+                <constraint firstItem="0uZ-yb-gbo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Vds-fC-tE0"/>
+                <constraint firstAttribute="bottom" secondItem="0uZ-yb-gbo" secondAttribute="bottom" id="dUH-Cm-H6x"/>
+                <constraint firstItem="Yxx-Zh-miR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fME-hq-Cip"/>
+                <constraint firstAttribute="trailing" secondItem="Yxx-Zh-miR" secondAttribute="trailing" id="ffI-oh-T98"/>
+                <constraint firstItem="0uZ-yb-gbo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="nCL-1T-h6H"/>
+                <constraint firstAttribute="trailing" secondItem="0uZ-yb-gbo" secondAttribute="trailing" id="q3f-sx-0JY"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="-433" y="-387"/>
         </view>
     </objects>
     <resources>
+        <image name="companyName" width="263" height="37"/>
+        <image name="login-account" width="25" height="24"/>
+        <image name="login-bg" width="375" height="667"/>
+        <image name="login-cipher" width="25" height="25"/>
         <image name="logo_login_icon" width="129" height="85"/>
     </resources>
 </document>

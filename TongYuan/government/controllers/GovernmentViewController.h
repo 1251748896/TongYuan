@@ -9,5 +9,19 @@
 #import "BaseViewController.h"
 
 @interface GovernmentViewController : BaseViewController
-
+{
+    NSString * _topEnterpriseTypeID;
+    NSString *_secondEnterpriseTypeID;
+    CGFloat _imageViewW ;
+    CGFloat _imageViewX ;
+    
+    
+    UIScrollView *_kindScroll;
+    
+    NSMutableArray *_kindSubViewsArr;
+    
+    NSString *_currentType ;
+    UILabel *_currentTypeLabel ;
+    
+}
 @end

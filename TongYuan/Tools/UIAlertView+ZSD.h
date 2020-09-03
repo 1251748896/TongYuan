@@ -1,0 +1,15 @@
+//
+//  UIAlertView+ZSD.h
+//  ZhuShangDai
+//
+//  Created by Mac on 16/12/22.
+//  Copyright © 2016年 Mac. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface UIAlertView (ZSD)
+
++ (void)showAlertViewWithMessage:(NSString *)message;
+
+@end

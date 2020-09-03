@@ -97,7 +97,7 @@
     }
     
     _topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _topBtn.frame = CGRectMake(SCREEN_WIDTH - 112/2.0 - 20, 20+5, 112/2.0, 64/2.0);
+    _topBtn.frame = CGRectMake(SCREEN_WIDTH - 112/2.0 - 20, 20+15, 112/2.0, 64/2.0);
     [_topBtn setBackgroundImage:[UIImage imageNamed:@"跳过.png"] forState:UIControlStateNormal];
     [_topBtn addTarget:self action:@selector(buttonPressed) forControlEvents:UIControlEventTouchUpInside];
     _topBtn.backgroundColor = [UIColor clearColor];
@@ -140,7 +140,7 @@
 //        [self removeFromSuperview];
 //    }
     
-    _topBtn.frame = CGRectMake(SCREEN_WIDTH - 112/2.0 - 20 + scrollView.contentOffset.x, _topBtn.frame.origin.y, _topBtn.frame.size.width, _topBtn.frame.size.height);
+//    _topBtn.frame = CGRectMake(SCREEN_WIDTH - 112/2.0 - 20 + scrollView.contentOffset.x, _topBtn.frame.origin.y, _topBtn.frame.size.width, _topBtn.frame.size.height);
 }
 
 - (NSMutableArray *)imageArray {

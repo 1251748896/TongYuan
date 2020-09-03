@@ -11,33 +11,51 @@
 #import "CircleBannerView.h"
 #import "ButtonTableCell.h"
 #import "YQDynamicCell.h"
-@interface MainViewController ()<UITableViewDelegate,UITableViewDataSource,ButtonTableCellDelegate>
+#import "MainModel.h"
+
+#import "YQLandStateViewController.h"
+#import "PorjectProcessController.h"
+#import "YQDataViewController.h"
+#import "WebViewController.h"
+
+@interface MainViewController ()<UITableViewDelegate,UITableViewDataSource,ButtonTableCellDelegate,CircleBannerViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) CircleBannerView *bannerView;
-
+@property (nonatomic) NSArray *bannerModels;
 @property (nonatomic) NSMutableArray *dataArray;
 @property (nonatomic) NSMutableArray *imageArray;
 @end
 
 @implementation MainViewController
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _dataArray = [NSMutableArray arrayWithCapacity:10];
+//    _dataArray = [NSMutableArray arrayWithCapacity:20];
     _imageArray = [NSMutableArray arrayWithCapacity:5];
+    _bannerModels = [NSArray array];
     self.navigationController.navigationBarHidden = YES;
     CGFloat bannerH = 200.0/375.0 * SCREEN_WIDTH;
     _bannerView = [[CircleBannerView alloc] init];
+    _bannerView.banneDdelegate = self;
     _bannerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, bannerH);
     _bannerView.backgroundColor = [UIColor whiteColor];
     _tableView.tableHeaderView = _bannerView;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
-    NSUserDefaults *defau = [NSUserDefaults standardUserDefaults];
-    NSString *userToken = [defau objectForKey:USERTOKENKEY];
+    NSString *userToken = [Tool getToken];
     if (userToken && userToken.length) {
         [Tool tool].isLogin = YES;
         [Tool tool].token = userToken;
@@ -50,36 +68,74 @@
     }
 }
 
+- (void)mainBannerClickIndex:(NSInteger)btnIndx indx:(NSInteger)indxxx {
+    
+    MainModel *mod = self.bannerModels[indxxx];
+    NSString *url = [NSString stringWithFormat:@"%@News/About/%@",BASEURL,mod.article_id];
+    
+    WebViewController *vc = [[WebViewController alloc] initWithUrl:url];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)initializeDataSource {
     
+    WeakObj(self)
+    StrongObj(weakself)
+    // banner
+    NSString *url = [NSString stringWithFormat:@"%@api/New/about",BASEURL];
+    NSDictionary *param = @{@"number":@"4"};
+    [NetManager getWithURL:url params:param animation:YES success:^(id obj) {
+        if ([obj[@"Lists"] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *tem = [NSMutableArray arrayWithCapacity:4];
+            for (NSDictionary *d in obj[@"Lists"]) {
+                MainModel *model = [[MainModel alloc] initWithDictionary:d];
+                if (model) {
+                    [tem addObject:model];
+                }
+            }
+            strongweakself.bannerModels = tem;
+            NSMutableArray *urls = [NSMutableArray arrayWithCapacity:5];
+            NSMutableArray *tits = [NSMutableArray arrayWithCapacity:5];
+            for (MainModel *m in tem) {
+                [urls addObject:m.img_url];
+                [tits addObject:m.title];
+            }
+            strongweakself.bannerView.titleArr = tits;
+            strongweakself.bannerView.imageArray = urls;
+        }
+    } failure:^(NSError *error) {
+        
+    }];
     
-    [_imageArray addObject:@"http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg"];
-    [_imageArray addObject:@"http://pic.58pic.com/58pic/13/74/51/99d58PIC6vm_1024.jpg"];
-    [_imageArray addObject:@"http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"];
-    [_imageArray addObject:@"http://down1.sucaitianxia.com/psd02/psd169/psds32264.jpg"];
+    //list
+    NSString *url_news = [NSString stringWithFormat:@"%@api/New/HomeNewest",BASEURL];
+    NSDictionary *newsParam = @{@"number":@"2"};
+    [NetManager getWithURL:url_news params:newsParam animation:YES success:^(id obj) {
+        for (NSDictionary *d in obj[@"Lists"]) {
+            MainModel *model = [[MainModel alloc] initWithDictionary:d];
+            if (model) {
+                [strongweakself.dataArray addObject:model];
+            }
+        }
+        [strongweakself.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
     
-    _bannerView.imageArray = _imageArray;
-  
-    [self.dataArray addObject:@{@"img":@"http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg",@"content":@"二手房二等分地方v感觉到发送v第三方v重新v发GV老地方据水电费v了生理功能开发的是管理开始的发V领但是发了个地方酸辣粉绿色的率水电费格拉苏蒂法律是曹改了发不发告诉对方V领的历史广播电视发",@"time":@"时间：2017-12-08",@"readCount":@"阅读次数：6"}];
-    [self.dataArray addObject:@{@"img":@"http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg",@"content":@"二手房二等分地方v感觉到发送v第三方v重新v发GV老地方据水电费v了生",@"time":@"时间：2017-12-08",@"readCount":@"阅读次数：7"}];
-    [self.dataArray addObject:@{@"img":@"http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg",@"content":@"二手房二等分地方v感觉到发送v第三方v重新v发GV老地方据水电费v了生理功能开发的是管理开始的发V领但是发了个地方酸辣粉绿色的率水电费格拉苏蒂法律是曹改了发不发告诉对方V领的历史广播电视发二手房二等分地方v感觉到发送v第三方v重新v发GV老地方据水电费v了生理功能开发的是管理开始的发V领但是发了个地方酸辣粉绿色的率水电费格拉苏蒂法律是曹改了发不发告诉对方V领的历史广播电视发",@"time":@"时间：2017-12-08",@"readCount":@"阅读次数：8"}];
-    [self.dataArray addObject:@{@"img":@"http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg",@"content":@"二手房二",@"time":@"时间：2017-12-08",@"readCount":@"阅读次数：1000"}];
-    
-    [self.tableView reloadData];
 }
 
 - (void)initializeUserInterface {
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 510.0/2.0 + 25;
+        return 250.0 + 25;
     }
     //计算高度
     
-    NSDictionary *d = self.dataArray[indexPath.row];
-    NSString *str = d[@"content"];
+    MainModel *model = self.dataArray[indexPath.row];
+    NSString *str = model.title;
     CGRect rt = [str boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil];
     
     CGFloat top = 10.0; CGFloat bian = 12.0;
@@ -119,20 +175,62 @@
     if (cell_yq == nil) {
         cell_yq = [[YQDynamicCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:yqCellIdtfer];
     }
-    NSDictionary *d = self.dataArray[indexPath.row];
-    NSString *imgUrl = d[@"img"];
-    NSString *str = d[@"content"];
-    NSString *time = d[@"time"];
-    NSString *readCount = d[@"readCount"];
+    MainModel *model = self.dataArray[indexPath.row];
+    NSString *imgUrl = [NSString stringWithFormat:@"%@",model.img_url];
+    NSString *str = model.title;
+    NSString *time = model.update_time;
+    NSString *readCount = [NSString stringWithFormat:@"阅读次数：%@",model.click];
     [cell_yq.imgv sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"plisholder_main_banner"]];
     cell_yq.contentlabel.text = str ;
-    cell_yq.timeLabel.text = time;
-    cell_yq.readCountLabel.text = readCount;
+    cell_yq.timeLabel.text = time ;
+    cell_yq.readCountLabel.text = readCount ;
     return cell_yq;
 }
 
 - (void)mainClickIndex:(NSInteger)btnIndx {
     
+    /*
+     0:园区土地, 1:项目进度, 2:园区生产经营数据
+     3:园区企业, 4:企业生产经营数据, 5:企业产业分类税值分析, 6:企业产品
+     7:更多园区动态
+     */
+    UIViewController *vc = nil;
+    
+    if (btnIndx == 0) {
+        vc = [[YQLandStateViewController alloc] init];
+    } else if (btnIndx == 1) {
+        vc = [[PorjectProcessController alloc] init];
+    } else if (btnIndx == 2) {
+        vc = [[YQDataViewController alloc] init];
+    } else if (btnIndx == 3) {
+//        vc = [[GovernmentViewController alloc] init];
+    } else if (btnIndx == 4) {
+        vc = [[EnterpriseDataListController alloc] init];
+    } else if (btnIndx == 5) {
+        vc = [[GovZZRevenueAnalyseController alloc] init];
+    } else if (btnIndx == 6) {
+        vc = [[ProductViewController alloc] init];
+    } else if (btnIndx == 7) {
+        vc = [[YQDynamicController alloc] init];
+    }
+    
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        [Tool tool].rootVC.selectedIndex = 2;
+    }
+ 
+    
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    MainModel *model = self.dataArray[indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"%@News/Index/%@",BASEURL,model.article_id];
+    WebViewController *vc = [[WebViewController alloc] initWithUrl:url];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)showLogin {

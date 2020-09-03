@@ -19,6 +19,7 @@
 }
 
 - (void)JSON:(NSDictionary *)dic {
+    
     unsigned int propertycount;
     objc_property_t *properties = class_copyPropertyList([self class], &propertycount);
     NSMutableArray *keysArray = [[NSMutableArray alloc] initWithCapacity:propertycount];
